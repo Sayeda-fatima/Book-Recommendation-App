@@ -20,10 +20,6 @@ dimension = summary_embeddings.shape[1]
 index = faiss.IndexFlatL2(dimension)
 index.add(np.array(summary_embeddings))
 
-# Load LLaMA model and tokenizer for explanation generation
-llama_tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b")
-llama_model = LlamaForCausalLM.from_pretrained("meta-llama/Llama-2-7b")
-
 # Function to get top book recommendations based on user query
 def get_recommendations(user_query, top_k=3, embedder=embedder):
     query_embedding = embedder.encode([user_query])
@@ -41,22 +37,6 @@ def get_recommendations(user_query, top_k=3, embedder=embedder):
         })
 
     return recommendations
-
-# Function to generate an explanation using LLaMA
-def generate_explanation(user_query, recommendations):
-    prompt = f"User asked for book recommendations based on the trope '{user_query}'.\n"
-    prompt += "Here are the recommended books:\n\n"
-
-    for i, book in enumerate(recommendations):
-        prompt += f"{i + 1}. {book['title']} by {book['author']} (Rating: {book['rating']})\n"
-        prompt += f"Tropes: {book['tropes']}\n"
-
-    prompt += "\nExplain why these books are suitable recommendations."
-
-    inputs = llama_tokenizer(prompt, return_tensors="pt")
-    outputs = llama_model.generate(**inputs, max_new_tokens=150)
-
-    return llama_tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 # Streamlit UI
 st.title("Tropes-Based Book Recommendation System")
@@ -78,10 +58,5 @@ if st.button("Recommend Books"):
             st.write(f"Tropes: {book['tropes']}")
             st.write(f"Summary: {book['summary']}")
             st.write("---")
-
-        # Generate explanation
-        explanation = generate_explanation(user_query, recommendations)
-        st.write("### Explanation:")
-        st.write(explanation)
     else:
         st.write("Please enter a trope to get recommendations.")
