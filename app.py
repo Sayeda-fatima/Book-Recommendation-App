@@ -22,7 +22,7 @@ df['combined_text'] = df.apply(
 combined_embeddings = embedder.encode(df['combined_text'].tolist())
 
 # Create and populate the FAISS index
-dimension = summary_embeddings.shape[1]
+dimension = combined_embeddings.shape[1]
 index = faiss.IndexFlatL2(dimension)
 index.add(np.array(summary_embeddings))
 
