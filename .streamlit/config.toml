@@ -1,7 +1,7 @@
 [theme]
 
-primaryColor = '#FFACD1' # Pink
+primaryColor = '#FF60A7' # Pink
 
-backgroundColor = '#ff7cb0' # Dark Pink
+backgroundColor = '#FFACD1' # Dark Pink
 
-secondaryBackgroundColor = '#ffddec' # Lighter Blue
+secondaryBackgroundColor = '#FFBFDB' # Lighter Blue
