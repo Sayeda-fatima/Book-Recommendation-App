@@ -18,6 +18,7 @@ df['combined_text'] = df.apply(
     axis=1
 )
 
+df['book_tropes'] = df['book_tropes'].fillna('No tropes available').astype(str)
 # Generate embeddings for the combined text
 combined_embeddings = embedder.encode(df['combined_text'].tolist())
 
@@ -61,7 +62,7 @@ if st.button("Recommend Books"):
         st.write("### Top Recommendations:")
         for book in recommendations:
             st.write(f"**{book['title']}** by {book['author']} (Rating: {book['rating']})")
-            st.write(f"Tropes: {book.get('book_tropes', 'No tropes available')}")
+            st.write(f"Tropes: {book['book_tropes']}")
             st.write(f"Summary: {book['summary']}")
             st.write("---")
     else:
