@@ -3,7 +3,14 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
-from transformers import LlamaForCausalLM, LlamaTokenizer
+
+
+# Initialize session state for FAISS index
+if 'faiss_index' not in st.session_state:
+    st.session_state.faiss_index = None
+
+if 'combined_embeddings' not in st.session_state:
+    st.session_state.combined_embeddings = None
 
 # Load the dataset
 df = pd.read_csv("books_info.csv")
@@ -18,19 +25,27 @@ df['combined_text'] = df.apply(
     axis=1
 )
 
-df['book_tropes'] = df['book_tropes'].fillna('No tropes available').astype(str)
-# Generate embeddings for the combined text
-combined_embeddings = embedder.encode(df['combined_text'].tolist())
+# Initialize and populate FAISS index if not already done
+def initialize_faiss_index():
+    # Generate embeddings for the combined text
+    combined_embeddings = embedder.encode(df['combined_text'].tolist())
+    
+    # Create and populate the FAISS index
+    dimension = combined_embeddings.shape[1]
+    index = faiss.IndexFlatL2(dimension)
+    index.add(np.array(combined_embeddings))
 
-# Create and populate the FAISS index
-dimension = combined_embeddings.shape[1]
-index = faiss.IndexFlatL2(dimension)
-index.add(np.array(combined_embeddings))
+    # Store index and embeddings in session state
+    st.session_state.faiss_index = index
+    st.session_state.combined_embeddings = combined_embeddings
+
+if st.session_state.faiss_index is None:
+    initialize_faiss_index()
 
 # Function to get top book recommendations based on user query
 def get_recommendations(user_query, top_k=3, embedder=embedder):
     query_embedding = embedder.encode([user_query])
-    distances, indices = index.search(query_embedding, top_k)
+    distances, indices = st.session_state.faiss_index.search(query_embedding, top_k)
 
     recommendations = []
     for i in indices[0]:
@@ -39,10 +54,9 @@ def get_recommendations(user_query, top_k=3, embedder=embedder):
             "title": book['title'],
             "author": book['author'],
             "rating": book['rating'],
-            "tropes": book['book_tropes'],
+            "book_tropes": book['book_tropes'],
             "summary": book['summary']
         })
-
     return recommendations
 
 # Streamlit UI
