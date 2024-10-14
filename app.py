@@ -12,8 +12,14 @@ st.write(f"Loaded {len(df)} books from the dataset.")
 # Load the Sentence-BERT model to generate embeddings
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
-# Generate embeddings for all book summaries
-summary_embeddings = embedder.encode(df['summary'].tolist())
+# Combine summary, reviews, and book tropes into a single text string for each book
+df['combined_text'] = df.apply(
+    lambda row: f"{row['summary']} [SEP] {row['reviews']} [SEP] Tropes: {row['book_tropes']}",
+    axis=1
+)
+
+# Generate embeddings for the combined text
+combined_embeddings = embedder.encode(df['combined_text'].tolist())
 
 # Create and populate the FAISS index
 dimension = summary_embeddings.shape[1]
@@ -55,7 +61,7 @@ if st.button("Recommend Books"):
         st.write("### Top Recommendations:")
         for book in recommendations:
             st.write(f"**{book['title']}** by {book['author']} (Rating: {book['rating']})")
-            st.write(f"Tropes: {book.get('book_tropes', 'No tropes available')}")
+            st.write(f"Tropes: {book['book_tropes']}")
             st.write(f"Summary: {book['summary']}")
             st.write("---")
     else:
