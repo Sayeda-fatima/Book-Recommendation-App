@@ -24,7 +24,7 @@ combined_embeddings = embedder.encode(df['combined_text'].tolist())
 # Create and populate the FAISS index
 dimension = combined_embeddings.shape[1]
 index = faiss.IndexFlatL2(dimension)
-index.add(np.array(summary_embeddings))
+index.add(np.array(combined_embeddings))
 
 # Function to get top book recommendations based on user query
 def get_recommendations(user_query, top_k=3, embedder=embedder):
