@@ -60,11 +60,11 @@ def get_recommendations(user_query, top_k=3, embedder=embedder):
     return recommendations
 
 # Streamlit UI
-st.title("Tropes-Based Book Recommendation System")
+st.title("Trope-Based Book Recommendation System")
 st.write("Enter a trope and get book recommendations!")
 
 # User input
-user_query = st.text_input("Enter a trope (e.g., enemies-to-lovers, found family):")
+user_query = st.text_input("Enter a trope (e.g., enemies to lovers, found family):")
 
 if st.button("Recommend Books"):
     if user_query:
