@@ -61,7 +61,7 @@ if st.button("Recommend Books"):
         st.write("### Top Recommendations:")
         for book in recommendations:
             st.write(f"**{book['title']}** by {book['author']} (Rating: {book['rating']})")
-            st.write(f"Tropes: {book['book_tropes']}")
+            st.write(f"Tropes: {book.get('book_tropes', 'No tropes available')}")
             st.write(f"Summary: {book['summary']}")
             st.write("---")
     else:
