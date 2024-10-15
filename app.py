@@ -7,6 +7,10 @@ from PIL import Image
 
 # Load the dataset
 df = pd.read_csv("books_info.csv")
+# Loading Image using PIL
+im = Image.open('public/icon.jpg')
+# Adding Image to web app
+st.set_page_config(page_title="Trope-Based Book Recommendation System", page_icon = im)
 st.write(f"Loaded {len(df)} books from the dataset.")
 
 # Load precomputed FAISS index and embeddings
@@ -40,10 +44,6 @@ def get_recommendations(user_query, top_k=3):
     return recommendations
 
 # Streamlit UI
-# Loading Image using PIL
-im = Image.open('public/icon.jpg')
-# Adding Image to web app
-st.set_page_config(page_title="Trope-Based Book Recommendation System", page_icon = im)
 # Remove default main menu options
 hide_default_format = """
        <style>
