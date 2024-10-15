@@ -3,7 +3,6 @@ import pandas as pd
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from PIL import Image
 
 # Load the dataset
 df = pd.read_csv("books_info.csv")
@@ -40,10 +39,6 @@ def get_recommendations(user_query, top_k=3):
     return recommendations
 
 # Streamlit UI
-# Loading Image using PIL
-im = Image.open('public/icon.jpeg')
-# Adding Image to web app
-st.set_page_config(page_title="Trope-Based Book Recommendation System", page_icon = im)
 # Remove default main menu options
 hide_default_format = """
        <style>
