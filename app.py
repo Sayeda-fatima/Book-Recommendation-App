@@ -52,7 +52,7 @@ hide_default_format = """
        </style>
        """
 st.markdown(hide_default_format, unsafe_allow_html=True)
-st.title("Tropes-Based Book Recommendation System")
+st.title("Trope-Based Book Recommendation System")
 st.write("Enter a trope and get book recommendations!")
 
 # User input
