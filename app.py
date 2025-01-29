@@ -55,6 +55,30 @@ st.markdown(hide_default_format, unsafe_allow_html=True)
 st.title("Trope-Based Book Recommendation System")
 st.write("Enter a trope and get book recommendations!")
 
+st.markdown("""
+    <style>
+    .stButton>button {
+        background-color: #FF60A7;
+        color: white;
+        border: none;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .stButton>button:hover {
+        background-color: #FFACD1;  /* Lighter Pink on Hover */
+    }
+    .st-bc{
+            background-color: #fff;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # User input
 user_query = st.text_input("Enter a trope (e.g., enemies-to-lovers, found family):")
 
