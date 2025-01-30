@@ -74,7 +74,13 @@ st.markdown("""
         background-color: #FFACD1;  /* Lighter Pink on Hover */
     }
     .st-bc{
-            background-color: #fff;
+        background-color: #fff;
+    }
+    ._link_gzau3_10{
+        visibility: hidden; 
+    }
+    .stToolbarActionButton{
+        visibility: hidden; 
     }
     </style>
 """, unsafe_allow_html=True)
