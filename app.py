@@ -82,6 +82,12 @@ st.markdown("""
     .stToolbarActionButton{
         visibility: hidden; 
     }
+    ._profilePreview_gzau3_63{
+        visibility: hidden;
+    }
+    ._profileContainer_gzau3_53{
+       visibility: hidden;     
+    }
     </style>
 """, unsafe_allow_html=True)
 
